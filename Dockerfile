@@ -6,7 +6,7 @@ RUN chmod +x /usr/bin/fwatchdog
 
 WORKDIR /root/
 
-ENV fprocess="nslookup"
+ENV fprocess="xargs nslookup"
 
 HEALTHCHECK --interval=1s CMD [ -e /tmp/.lock ] || exit 1
 
