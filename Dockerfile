@@ -1,7 +1,7 @@
 FROM alpine
 
 # ADD https://github.com/alexellis/faas/releases/download/0.5.8-alpha/fwatchdog /usr/bin
-ADD https://github.com/openfaas-incubator/of-watchdog/releases/download/0.1.0/of-watchdog /usr/bin
+ADD https://github.com/openfaas-incubator/of-watchdog/releases/download/0.8.0/of-watchdog /usr/bin
 
 # RUN chmod +x /usr/bin/fwatchdog
 RUN chmod +x /usr/bin/of-watchdog
