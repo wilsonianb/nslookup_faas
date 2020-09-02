@@ -1,28 +1,16 @@
-FROM openfaas/classic-watchdog:0.18.18 as watchdog
+FROM alpine
 
-FROM alpine:3.11
+# ADD https://github.com/alexellis/faas/releases/download/0.5.8-alpha/fwatchdog /usr/bin
+ADD https://github.com/openfaas-incubator/of-watchdog/releases/download/0.8.0/of-watchdog /usr/bin
 
-RUN mkdir -p /home/app
+# RUN chmod +x /usr/bin/fwatchdog
+RUN chmod +x /usr/bin/of-watchdog
 
-COPY --from=watchdog /fwatchdog /usr/bin/fwatchdog
-RUN chmod +x /usr/bin/fwatchdog
+WORKDIR /root/
 
-# Add non root user
-RUN addgroup -S app && adduser app -S -G app
-RUN chown app /home/app
+ENV fprocess="xargs nslookup"
 
-WORKDIR /home/app
+HEALTHCHECK --interval=1s CMD [ -e /tmp/.lock ] || exit 1
 
-USER app
-
-# Populate example here - i.e. "cat", "sha512sum" or "node index.js"
-# ENV fprocess="xargs nslookup"
-
-# Set to true to see request in function logs
-ENV write_debug="true"
-
-EXPOSE 8080
-
-HEALTHCHECK --interval=3s CMD [ -e /tmp/.lock ] || exit 1
-
-CMD ["fwatchdog"]
+# CMD ["fwatchdog"]
+CMD ["of-watchdog"]
